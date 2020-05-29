@@ -408,6 +408,9 @@ def rewrite_query(query, parameters, get_args):
     glogger.debug("Required parameters: {} Request args: {}".format(requiredParams, providedParams))
     assert requiredParams.issubset(providedParams), 'Provided parameters do not cover the required parameters!'
 
+    if isinstance(query, dict) and get_args.get('lang'):
+        query['$lang'] = get_args.get('lang')
+
     for pname, p in list(parameters.items()):
         # Get the parameter value from the GET request
         v = get_args.get(pname, None)
@@ -416,10 +419,6 @@ def rewrite_query(query, parameters, get_args):
             continue
 
         if isinstance(query, dict):  # json query (sparql transformer)
-            if pname == 'lang':
-                query['$lang'] = v
-                continue
-
             if '$values' not in query:
                 query['$values'] = {}
             values = query['$values']
@@ -455,6 +454,7 @@ def rewrite_query(query, parameters, get_args):
                 query = query.replace(p['original'], "\"{}\"".format(v))
 
     if isinstance(query, dict):  # json query (sparql transformer)
+        print(query)
         rq, proto, opt = SPARQLTransformer.pre_process(query)
         query = rq.strip()
 
