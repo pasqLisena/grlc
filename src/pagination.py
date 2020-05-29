@@ -11,7 +11,7 @@ def getSwaggerPaginationDef(resultsPerPage):
 
 def buildPaginationHeader(resultCount, resultsPerPage, pageArg, url):
     """Build link header for result pagination"""
-    lastPage = resultCount / resultsPerPage
+    lastPage = int(resultCount / resultsPerPage)
 
     if pageArg:
         page = int(pageArg)

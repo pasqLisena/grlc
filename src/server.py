@@ -14,7 +14,7 @@ glogger = glogging.getGrlcLogger(__name__)
 
 ### The Flask app ###
 app = Flask(__name__)
-CORS(app)
+CORS(app, expose_headers='*')
 
 ### Helper functions ###
 def relative_path():

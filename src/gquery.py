@@ -416,6 +416,10 @@ def rewrite_query(query, parameters, get_args):
             continue
 
         if isinstance(query, dict):  # json query (sparql transformer)
+            if pname == 'lang':
+                query['$lang'] = v
+                continue
+
             if '$values' not in query:
                 query['$values'] = {}
             values = query['$values']
